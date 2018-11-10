@@ -25,7 +25,7 @@ class Client:
 
     def mysend(self):
 
-        self.sock.send('! U1 getvar "comm.baud"\n')
+        self.sock.send("! U1 getvar \"device.languages\"\r\n\r\n")
 
 
     def myreceive(self):
