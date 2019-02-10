@@ -16,18 +16,17 @@ import sys
 # from termcolor import cprint - For Windows color support
 from pyfiglet import Figlet
 import time
+import subprocess
 import usb.core
 import usb.util
 
 
 class zebraPrinter:
 
-    # find all printers with the Zebra id (This supposes there is only one)
-    dev = usb.core.find(idVendor=0xa5f)
 
     def __init__(self):  # define the constructor
 
-        dev = self.dev
+        self.dev = None  
         self.cmd_strings = []
         cmd_strings = self.cmd_strings
         # self.set_configuration()
@@ -37,13 +36,21 @@ class zebraPrinter:
         # self.send_to_printer()
         # self.read_response()
 
-        # was the device found
-        if self.dev is None:
-            raise ValueError('Device not found')
-        if self.dev.is_kernel_driver_active(0):
-            print("Detaching kernel driver")
-            reattach = True
-            self.dev.detach_kernel_driver(0)
+    def get_printer(self):
+        
+        try:
+            dev = self.dev
+            # find all printers with the Zebra id (This supposes there is only one)
+            dev = usb.core.find(idVendor=0xa5f)
+            # was the device found
+            if self.dev is None:
+                except ValueError as e 
+                print('Device not found')
+                print("Please plug in the printer")
+            if self.dev.is_kernel_driver_active(0):
+                print("Detaching kernel driver")
+                reattach = True
+                self.dev.detach_kernel_driver(0)
 
 
 #### show config / interface / endpoints: ################################
@@ -99,15 +106,17 @@ class zebraPrinter:
         
         while True:
             try:
-                #cmd_strings = []
+                self.cmd_strings = []
                 cmd_string = input()
-                #if cmd_string == 'q':
-                #    sys.exit()
-                #elif cmd_string == '\r':
-                #    pass
-                #else:
-                self.cmd_strings = self.cmd_strings.append(cmd_string)
-                #    continue
+                if cmd_string == 'q':
+                    sys.exit()
+                elif cmd_string == '\r':
+                    continue
+                elif cmd_string == '':
+                    continue
+                else:
+                    self.cmd_strings = self.cmd_strings.append(cmd_string)
+                    continue
             except EOFError:
                 yield self.cmd_strings
 
@@ -167,6 +176,8 @@ class menuHandler():
         return i
 
     def help_page(self):
+        
+        subprocess.call(["vi", "-R", "help.txt"])
         f = Figlet(font='standard', width=1920)
         print(f.renderText('Help'))
 
@@ -177,13 +188,14 @@ class menuHandler():
         print(f.read())
         f.close()
 
+        
         while True:
             print("Press 'r' to return to the menu or 'q' to quit")
             i = input()
             if i == 'r':
-                self.menu()
-            elif i == '\r':
-                i = input()
+                main()
+            #elif i == '\r':
+            #    i = input()
             elif i == 'q':
                 sys.exit()
             else:
@@ -201,7 +213,7 @@ def main():
         if choice == 'c':
             m.help_page()
         if choice == 'u':
-            dev = z.dev
+            z.get_printer()
             z.set_configuration()
             z.get_out_endpoints()
             z.get_in_endpoints()
