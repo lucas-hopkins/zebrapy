@@ -1,0 +1,146 @@
+Command References
+# https://www.zebra.com/content/dam/zebra/manuals/en-us/software/zpl-zbi2-pm-en.pdf
+# https://support.zebra.com/cpws/docs/crawl/QL_PLUS_SERIES/get_set_do58.pdf#xml=https://km.zebra.com/kb/index?page=answeropen&type=open&searchid=1476204921077&answerid=16777228&iqaction=6&url=https%3A%2F%2Fsupport.zebra.com%2Fcpws%2Fdocs%2Fcrawl%2FQL_PLUS_SERIES%2Fget_set_do58.pdf&highlightinfo=12582938,226,239
+
+# get the baud rate of the printer
+! U1 getvar "comm.baud"
+
+# http://weblink.cloudapp.net/ZebraWebServicesDeveloperDemo/
+
+
+# http://weblink.cloudapp.net/
+# command set which allowed 172.24.42.172 (ZT410-600dpi) S/N=18J134700868 to work with the Zebra weblink demo
+! U1 setvar "weblink.logging.max_entries" "50"
+! U1 setvar "ip.dhcp.enable" "on"
+! U1 setvar "internal_wired.ip.protocol" "dhcp and bootp"
+! U1 setvar "internal_wired.ip.dns.servers" "143.116.92.199 143.116.92.200"
+! U1 setvar "internal_wired.ip.dns.domain" "sanmina-sci.com"
+! U1 setvar "weblink.ip.conn1.location" "https://weblink.cloudapp.net/zebra/weblink/"
+! U1 setvar "weblink.ip.conn1.proxy" "http://143.116.92.201:64000/"
+! U1 setvar "device.reset" ""
+
+
+# command set which allowed 172.24.42.172 (ZT410-600dpi) S/N=18J134700868 to work with the custom Sanmina websocket over sslvpn @ 148.164.24.105:17800 (device tun0)
+! U1 setvar "weblink.logging.max_entries" "50"
+! U1 setvar "ip.dhcp.enable" "off"
+! U1 setvar "internal_wired.ip.protocol" "permanent"
+! U1 setvar "internal_wired.ip.dns.servers" "148.164.24.28"
+! U1 setvar "internal_wired.ip.dns.domain" "sanmina.com"
+! U1 setvar "weblink.ip.conn1.location" "https://zserver.sanmina.com:17800/zebra/weblink/"
+! U1 setvar "weblink.ip.conn1.proxy" ""
+! U1 setvar "device.reset" ""
+
+
+# commands to check zebra websocket connection configurations
+! U1 getvar "ip.dhcp.enable"
+! U1 getvar "internal_wired.ip.protocol"
+! U1 getvar "internal_wired.ip.dns.servers"
+! U1 getvar "internal_wired.ip.dns.domain"
+! U1 getvar "weblink.ip.conn1.location"
+! U1 getvar "weblink.ip.conn1.proxy"
+
+
+
+# command set which allowed 192.168.1.8 (ZTC iMZ320-203dpi CPCL) S/N=XXXXJ162502557 to work with local network pc 192.168.1.2 thru gateway 192.168.1.1
+! U1 setvar "weblink.logging.max_entries" "50"
+! U1 setvar "ip.dhcp.enable" "off"
+! U1 setvar "ip.dns.servers" "192.168.1.2"
+! U1 setvar "ip.dns.domain" "sanmina.com"
+! U1 setvar "weblink.ip.conn1.location" "https://zserver.sanmina.com:443/zebra/weblink/"
+! U1 setvar "weblink.ip.conn1.proxy" ""
+! U1 setvar "device.reset" ""
+
+
+# commands to check zebra websocket connection configurations for (ZTC iMZ320-203dpi CPCL)
+! U1 getvar "weblink.logging.max_entries"
+! U1 getvar "ip.dhcp.enable"
+! U1 getvar "ip.dns.servers"
+! U1 getvar "ip.dns.domain"
+! U1 getvar "weblink.ip.conn1.location"
+! U1 getvar "weblink.ip.conn1.proxy"
+
+# original form feed configuration for ZTC iMZ320-203dpi CPCL
+! U1 setvar "zpl.label_length" "203"
+
+# form feed configuration to test with ZTC iMZ320-203dpi CPCL to prevent paper waste
+! U1 setvar "zpl.label_length" "50"
+
+
+# command to get weblink logging entries
+! U1 getvar "weblink.logging.entries" 
+
+# command for authentication
+! U1 setvar "weblink.ip.conn1.authentication.add" "servername username password"
+
+# command for authentication
+! U1 setvar "weblink.ip.conn1.authentication.add" "servername zebradevice1"
+
+
+# https://km.zebra.com/kb/index?page=content&id=WH97&actp=RSS
+# The command to configure a printer for ZPL is:
+! U1 setvar “device.languages” “ZPL”
+# Note:  This command must end with a carriage-return/line-feed combination.
+
+# The command to query a Zebra printer to determine the “device.languages” setting is:
+! U1 getvar “device.languages”
+# Note:  This command must end with a carriage-return/line-feed combination.
+
+# This command retrieves the name assigned to the printer. 
+! U1 getvar "device.friendly_name"
+
+# getvar example: the printer set as the printer's serial number
+! U1 getvar "bluetooth.friendly_name"
+! U1 getvar "bluetooth.local_name"
+
+# This command instructs the printer to respond with its current IP address. 
+! U1 getvar "ip.addr"
+
+# This command retrieves the MAC address of the active print server. 
+! U1 getvar "interface.network.active.mac_addr"
+
+# This command instructs the printer to respond with its current internal wired print server IP address. 
+! U1 getvar "internal_wired.ip.addr"
+
+! U1 getvar "interface.network.active.mac_addr"
+! U1 getvar "internal_wired.ip.addr"
+
+# How to Enable ZPL or Line Print Mode on Mobile Printers
+# https://km.zebra.com/kb/index?page=content&id=SO7296
+! U1 setvar "device.languages" "zpl"
+! U1 setvar "device.languages" "line_print"
+
+# setting date time of Zebra iMZ320 mobile printer
+# https://km.zebra.com/kb/index?page=content&id=SO7153&actp=LIST
+# https://km.zebra.com/kb/index?page=content&id=SO6888&actp=LIST
+# http://pdf.webmaxx.hu/zebra-mobil-cimke-nyomtato-imz220-imz320-linkos-eng.pdf
+#! U1 setvar "rtc.date" "02-21-2017"
+#! U1 setvar "rtc.time" "13:02:00"
+
+#http://pdf.webmaxx.hu/zebra-mobil-cimke-nyomtato-imz220-imz320-programozas-eng.pdf
+
+#when "usb.device.device_unique_id" value not set to "off"
+#sent:          ! U1 getvar "usb.device.serial_string"
+#received: "18J134700868"
+
+# device serial number value
+#sent:          ! U1 getvar "device.friendly_name"
+#received: "18J134700868"
+
+#sent:          ! U1 getvar "device.unique_id"
+#received: "18J134700868"
+
+#sent:          ! U1 getvar "device.host_identification"
+#received: "ZT410-600dpi,V75.19.15Z,24,4096KB"
+
+#sent:          ! U1 getvar "usb.device.serial_string"
+#received: "18J134700868"
+
+#sent:          ! U1 getvar "usb.device.device_unique_id"
+#received: "on"
+"""
+
+samplecmd = """
+# Sample Command :
+
+# get the baud rate of the printer
+! U1 getvar "comm.baud"
