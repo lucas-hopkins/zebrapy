@@ -1,0 +1,8 @@
+README.md
+setup.py
+bin/usb_0.4.py
+zebraPy.egg-info/PKG-INFO
+zebraPy.egg-info/SOURCES.txt
+zebraPy.egg-info/dependency_links.txt
+zebraPy.egg-info/requires.txt
+zebraPy.egg-info/top_level.txt

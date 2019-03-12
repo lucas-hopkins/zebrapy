@@ -1,0 +1,3 @@
+! U1 setvar "wlan.essid" "wifi-Phone"
+! U1 setvar "wlan.password" "kn0t?c15c0but0k!"
+! U1 do "device.reset"

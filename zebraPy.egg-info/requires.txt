@@ -1,0 +1,11 @@
+socket
+tkinter
+binascii
+logging
+os
+subprocess
+sys
+time
+datetime
+pyusb
+pyfiglet

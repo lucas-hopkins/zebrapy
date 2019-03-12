@@ -1,2 +1,0 @@
-! U1 getvar "ip.addr" ""
-! U1 getvar "weblink.enable" ""

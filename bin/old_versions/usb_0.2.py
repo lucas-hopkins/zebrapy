@@ -1,15 +1,15 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                                                 "
+"   42Q Configurator                                                              "
+"   Lucas Hopkins                                                                 "  
+"   0.3 Development Version                                                       "
+"                                                                                 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """This script allows you to communicate with a Zebra printer over USB or TCP/IP"""
 # import argparse -------------Eventually implement for accessing
 # functionality directly
-import binascii
-import logging
-import os
-#import queue
-import subprocess
-import sys
-import threading
-# import codecs
+import binascii, logging, os, subprocess, sys, threading
 # from colorama import init  - For Figlet color support
 # init(strip=not sys.stdout.isatty())
 # from termcolor import cprint - For Windows color support
@@ -19,8 +19,10 @@ from tkinter import *
 from tkinter.filedialog import askopenfilename
 import usb.core
 import usb.util
-from pyfiglet import Figlet
+from pyfiglet import Figlet    #Used for the pretty ascii art on the main menu
 
+# The following class creates a Zebra Printer object that traverses the USB interface to claim an IN and OUT Endpoint which will be used for reading and writing.
+# There are also methods to add the ability to send commands to the printer via a file...and I couldn't think of a better place to put them
 
 class zebraPrinter:
 
@@ -36,7 +38,6 @@ class zebraPrinter:
          # one)
             self.dev = usb.core.find(idVendor=0xa5f)
             self.dev.reset()
-            # if self.dev is None:
             if self.dev.is_kernel_driver_active(0):
                 print("Detaching kernel driver")
                 self.dev.detach_kernel_driver(0)
@@ -172,12 +173,9 @@ class menuHandler():
     
 def main():
     # This is messy.....just deal with it.
-
-    # Instantiate a menu Object
-    # Instatiate a printer Object
     
-    m = menuHandler()
-    dev = ''                        
+    m = menuHandler()              # Instantiate the Menu Object
+    dev = ''                       # Create a empty dev - This is used for the traversal chain through the USB device.  
     z = zebraPrinter(dev)          # Instantiate the Printer Object
     z.get_printer()                # Claim the Printer -> Resolve dev to the printer
     z.set_configuration()          # Claim the intf
@@ -191,34 +189,13 @@ def main():
         m.help_page()
     if choice == 'u':
         m.command_menu()
-        
-        
-        
-        #cmds = []
-        #while True:
-        #    try:
-        #        cmd = input()
-        #        cmds.append(cmd)
-        #        print(cmds)
-        #    except EOFError:
-        #        break
-    
         cmds = z.command_loop()
         z.iter_cmds_loop(cmds)
-
     if choice == "o":
             cmds = file_reader()
             print(cmds)
             z.iter_cmds_loop(cmds)              
-    
-    
-    
-    #for cmd in cmds:
-    #    r = z.format_commands(cmd)
-    #    z.send_to_printer(r)
-    #    z.read_response()
-    #z.dispose()
-        
+     
     print("Select (r) to return the command option or (m) for the main menu")
     choice = input()
     if choice == 'm':
